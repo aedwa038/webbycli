@@ -26,8 +26,8 @@ TODO: add packing for deb files.
 After packaging, installing webby is simple as decompressing the tar file.
 The tar file should contain two files:
 
-    * `webby`: the binary for execution needed
-    * `config.yaml`: config file used to storing your Webster api key
+    * webby: the binary for execution needed
+    * config.yaml: config file used to storing your Webster api key
 
 Before using webby be sure to obtain a key from the [Merriam-Webster](https://dictionaryapi.com/products/json#sec-2.fl) and add to the configuration file.
 
