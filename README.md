@@ -36,4 +36,4 @@ Invoke the tool for a definition
     webby -- -term=adapt --config=/path/to/configfile
 ```
 
-**NB: This application is not tested in a real aws environment**
+**NB: This application is not tested in a real environment**
