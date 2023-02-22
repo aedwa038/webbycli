@@ -1,0 +1,58 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@rules_pkg//pkg:deb.bzl", "pkg_deb")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+# gazelle:prefix github.com/aedwa038/webby
+gazelle(name = "gazelle")
+
+go_library(
+    name = "webby_lib",
+    srcs = [
+        "config.go",
+        "main.go",
+        "service.go",
+        "sling.go",
+    ],
+    importpath = "github.com/aedwa038/webby",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_dghubble_sling//:sling",
+        "@in_gopkg_yaml_v2//:yaml_v2",
+    ],
+)
+
+go_binary(
+    name = "webby",
+    embed = [":webby_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "webby_test",
+    srcs = ["service_test.go"],
+    embed = [":webby_lib"],
+    deps = ["@com_github_google_go_cmp//cmp"],
+)
+
+filegroup(
+    name = "file_content",
+    srcs = [
+        "config.yaml",
+        ":webby",
+    ],
+)
+
+pkg_tar(
+    name = "webby_tar",
+    srcs = [":file_content"],
+)
+
+pkg_deb(
+    name = "webby_deb",
+    data = ":webby_tar",
+    description = "Webster dictionary cli ",
+    maintainer = "akeemedwards@msn.com",
+    package = "webby",
+    version = "3.14",
+)
