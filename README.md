@@ -19,15 +19,16 @@ For packaging up webby for distribution run the following commands for tars
  make package
 ```
 
-This will build webby for linux, windows and mac and packge the files up as TARS. 
-TODO: add packing for deb files.
+This will build webby for linux, windows and mac and package the files up as Tars. 
+TODO: add packaging for deb files.
 
 ## Installation
 After packaging, installing webby is simple as decompressing the tar file.
 The tar file should contain two files:
-
-    * webby: the binary for execution needed
-    * config.yaml: config file used to storing your Webster api key
+    
+*   `webby`: the binary for execution needed
+    
+*   `config.yaml`: config file used to storing your Webster api key
 
 Before using webby be sure to obtain a key from the [Merriam-Webster](https://dictionaryapi.com/products/json#sec-2.fl) and add to the configuration file.
 
