@@ -31,6 +31,7 @@ jobs:
             gotestsum --junitfile /tmp/test-reports/unit-tests.xml
       - store_test_results:
           path: /tmp/test-reports
+      - codecov/upload
 
 orbs:
   codecov: codecov/codecov@3.2.4
@@ -44,5 +45,4 @@ workflows:
   upload-to-codecov:
     jobs:
       - build
-      - codecov/upload
 
