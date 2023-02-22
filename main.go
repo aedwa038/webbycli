@@ -1,3 +1,6 @@
+// Package main implements the webster cli binary 
+// used for looking up the definitions of words
+//
 package main
 
 import (
@@ -37,11 +40,11 @@ func main() {
 		fmt.Println("No dictionary entries found")
 	}
 	fmt.Println(*term + "\n")
-	output(entries)
+	print(entries)
 
 }
-
-func output(defs []Result) {
+// output 
+func print(defs []Result) {
 	for _, d := range defs {
 		var sb strings.Builder
 		fmt.Fprintf(&sb, "`%s`", d.Prs)

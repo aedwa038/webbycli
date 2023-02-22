@@ -1,5 +1,6 @@
 package main
 
+// Entry represents a definition returned by the api
 type Entry struct {
 	MetaData MetaDataInfo `json:"meta"`
 	Fl       string       `json:"fl"`
@@ -7,20 +8,24 @@ type Entry struct {
 	HeadWord HeadWordInfo `json:"hwi"`
 }
 
+// HeadWordInfo represents the word be defined includes pronounciation.
 type HeadWordInfo struct {
 	Hw  string `json:"hw"`
 	Prs []PRS  `json:"prs"`
 }
 
+// PRS represents the pronounciation of a word being defined
 type PRS struct {
 	Mw    string    `json:"mw"`
 	Sound SoundInfo `json:sound`
 }
 
+// SoundInfo represents the audio file for the word being defined
 type SoundInfo struct {
 	Audio string `json:audio`
 }
 
+// MetadataInfo represents metadata on the defined word.
 type MetaDataInfo struct {
 	Id    string   `json:"id"`
 	UUID  string   `json:"uuid"`
@@ -33,15 +38,17 @@ type WebsterService struct {
 	p       Params
 }
 
+// fetcher is a genric interface for communitcating with the webster api
 type fetcher interface {
 	Fetch(term string, params Params) ([]Entry, error)
 }
 
+// Params represent the parameters needed to communicate with the api
 type Params struct {
 	Key string `url:"key,omitempty"`
 }
 
-// NewWebsterService returns a new .
+// NewWebsterService returns a new WebsterService for fetching definitions
 func NewWebsterService(baseURL string, client fetcher, params Params) *WebsterService {
 	return &WebsterService{
 		fetcher: client,
@@ -49,7 +56,7 @@ func NewWebsterService(baseURL string, client fetcher, params Params) *WebsterSe
 	}
 }
 
-// List returns the authenticated user's issues across repos and orgs.
+// ListDefs returns a list of defnitions found for a word or search term
 func (s *WebsterService) ListDefs(term string) ([]Result, error) {
 	entries, err := s.fetcher.Fetch(term, s.p)
 	if err != nil {
@@ -60,6 +67,7 @@ func (s *WebsterService) ListDefs(term string) ([]Result, error) {
 	return defs, err
 }
 
+// checks if a word is contained within an array.
 func contains(s []string, str string) bool {
 	for _, v := range s {
 		if v == str {
@@ -70,6 +78,7 @@ func contains(s []string, str string) bool {
 	return false
 }
 
+// filterEntries filters entries that are invalid or not neccsary
 func filterEntries(entries []Entry, term string) []Entry {
 	e := make([]Entry, 0)
 	for _, entry := range entries {
@@ -81,6 +90,7 @@ func filterEntries(entries []Entry, term string) []Entry {
 	return e
 }
 
+// Result represents a definition of a word
 type Result struct {
 	//metaData MetaDataInfo
 	Label string
@@ -88,6 +98,7 @@ type Result struct {
 	Prs   string
 }
 
+//mapToDefs maps Entries to results being returned
 func mapToDefs(entries []Entry) []Result {
 	var defs []Result
 	for _, entry := range entries {
